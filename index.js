@@ -15,7 +15,11 @@ app.use(stinker);
 app.use(express.urlencoded({ extended: true })); // allows form with keys
 app.use(express.static("public")); // direct to folder: css, images, other static assets - http://localhost:3000/readme.txt
 app.use(helmet());
-app.use(morgan("tiny"));
+
+if (app.get('env') === 'development') {
+  app.use(morgan("tiny")); //ex GET /api/courses 200 79 - 3.975 ms | can be added to log file | may want to not have for prod, clogs mware pipeline
+  console.log('Morgan enabled in development...');
+}
 
 const courses = [
   { id: 1, name: "course1" },
