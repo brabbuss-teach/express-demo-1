@@ -3,8 +3,8 @@
 const debug = require("debug")("app:startup");
 const morgan = require("morgan"); // https://expressjs.com/en/resources/middleware/morgan.html
 const helmet = require("helmet"); // https://github.com/helmetjs/helmet
-const courses = require('./courses/courses')
-const home = require('./home/home')
+const courses = require('./routes/courses')
+const home = require('./routes/home')
 const express = require("express");
 const app = express(); // naming convention // access to app.get(), put, post, and delete
 
@@ -14,6 +14,8 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true })); // allows form with keys
 app.use(express.static("public")); // direct to folder: css, images, other static assets - http://localhost:3000/readme.txt
 app.use(helmet());
+
+// Routes
 app.use('/api/courses', courses)
 app.use('/', home)
 
