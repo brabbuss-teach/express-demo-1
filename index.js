@@ -6,17 +6,16 @@ const helmet = require("helmet"); // https://github.com/helmetjs/helmet
 const Joi = require("joi");
 const express = require("express");
 const app = express(); // naming convention // access to app.get(), put, post, and delete
-const logger = require("./logger");
-const authenticator = require("./authenticator");
 
 // https://expressjs.com/en/resources/middleware.html
 // used in the middle of a req/res cycle
 app.use(express.json());
-app.use(logger);
-app.use(authenticator);
 app.use(express.urlencoded({ extended: true })); // allows form with keys
 app.use(express.static("public")); // direct to folder: css, images, other static assets - http://localhost:3000/readme.txt
 app.use(helmet());
+
+app.set('view engine', 'pug')
+app.set('views', './views') //by default folder name
 
 // Selective middleware based on ENV
 if (app.get("env") === "development") {
@@ -31,7 +30,7 @@ const courses = [
 ];
 
 app.get("/", (req, res) => {
-  res.send("Hello World");
+  res.render('index',{title:"Express Demo App", message: "Hello World"})
 });
 
 app.get("/api/courses", (req, res) => {
