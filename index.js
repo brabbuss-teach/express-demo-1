@@ -1,17 +1,21 @@
+const morgan = require("morgan"); // https://expressjs.com/en/resources/middleware/morgan.html
+const helmet = require("helmet"); // https://github.com/helmetjs/helmet
 const Joi = require("joi");
 const express = require("express");
-const app = express(); // naming convention
-// access to app.get(), put, post, and delete
-const logger = require('./logger')
-const authenticator = require('./authenticator')
-const stinker = require('./stinker')
+const app = express(); // naming convention // access to app.get(), put, post, and delete
+const logger = require("./logger");
+const authenticator = require("./authenticator");
+const stinker = require("./stinker");
 
+// https://expressjs.com/en/resources/middleware.html
 app.use(express.json());
 app.use(logger);
 app.use(authenticator);
 app.use(stinker);
-app.use(express.urlencoded({extended: true})) // allows form with keys
-app.use(express.static('public')) // direct to folder: css, images, other static assets - http://localhost:3000/readme.txt
+app.use(express.urlencoded({ extended: true })); // allows form with keys
+app.use(express.static("public")); // direct to folder: css, images, other static assets - http://localhost:3000/readme.txt
+app.use(helmet());
+app.use(morgan("tiny"));
 
 const courses = [
   { id: 1, name: "course1" },
