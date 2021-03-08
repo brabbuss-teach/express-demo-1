@@ -1,4 +1,8 @@
-const config = require('config')
+// require('debug') calls a fxn w/takes an arg => require('debug')(arg)
+// that arg is an arbitrary namespace for debugging
+const startupDebugger = require("debug")("app:startup");
+const dbDebugger = require("debug")("app:db");
+const config = require("config");
 const morgan = require("morgan"); // https://expressjs.com/en/resources/middleware/morgan.html
 const helmet = require("helmet"); // https://github.com/helmetjs/helmet
 const Joi = require("joi");
@@ -18,15 +22,17 @@ app.use(express.static("public")); // direct to folder: css, images, other stati
 app.use(helmet());
 
 // Configuration - export NODE_ENV=development/production/etc
-console.log('Application Name: ' + config.get('name'));
-console.log('Mail Server: ' + config.get('mail.host')); 
-console.log('Mail Password: ' + config.get('mail.password'));  // from custom-environment-variables.json | set in CLI `export app_password=1234`
+console.log("Application Name: " + config.get("name"));
+console.log("Mail Server: " + config.get("mail.host"));
+console.log("Mail Password: " + config.get("mail.password")); // from custom-environment-variables.json | set in CLI `export app_password=1234`
 
 // Selective middleware based on ENV
-if (app.get('env') === 'development') {
+if (app.get("env") === "development") {
   app.use(morgan("tiny")); //ex GET /api/courses 200 79 - 3.975 ms | can be added to log file | may want to not have for prod, clogs mware pipeline
-  console.log('Morgan enabled in development...');
+  startupDebugger("Morgan enabled...");
 }
+
+dbDebugger("Connected to the database...");
 
 const courses = [
   { id: 1, name: "course1" },
