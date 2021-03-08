@@ -10,6 +10,8 @@ app.use(express.json());
 app.use(logger);
 app.use(authenticator);
 app.use(stinker);
+app.use(express.urlencoded({extended: true})) // allows form with keys
+app.use(express.static('public')) // direct to folder: css, images, other static assets - http://localhost:3000/readme.txt
 
 const courses = [
   { id: 1, name: "course1" },
