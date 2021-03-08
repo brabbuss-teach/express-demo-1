@@ -1,0 +1,6 @@
+{
+  "name": "Learning Express Demo App - DEVELOPMENT",
+    "mail": {
+      "host": "dev-mail-server"
+    }
+}
